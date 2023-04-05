@@ -12,8 +12,8 @@
 #   dot format
 # =========================================================================
 # Globals
-output_format="plantuml"
-running=0
+# output_format="plantuml"
+# running=0
 
 # =========================================================================
 function check_arguments() {
@@ -120,10 +120,10 @@ function uml_table(line)
     printf("table(%s) { \n",tablename )
 
     # columns
-    braceposition = match(line,"\(")
+    braceposition = match(line,"\\(")
     revisedlength = length(line)-braceposition
     params = substr(line,braceposition,revisedlength)
-    sub("\(","",params)
+    sub("\\(","",params)
     sub("\)","",params)
     numparams = split(params,param,",")
     for (i=1;i<= numparams;i++) {
@@ -168,7 +168,7 @@ function uml_table(line)
 }
 
 function uml_table_relationship(t1,t2) {
-    mystr = sprintf("%s }|--|| %s",t1,t2)
+    mystr = sprintf("%s -- %s",t1,t2)
     #print("my str = ",mystr)
     return mystr
 }
@@ -206,8 +206,10 @@ BEGIN {
     check_arguments()
     uml_start()
     }
-
+{
 uml_parse_line($0)
+}
+
 
 END {    uml_end() }
 
